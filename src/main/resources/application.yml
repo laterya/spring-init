@@ -1,0 +1,5 @@
+springinit:
+  jwt:
+    issuer: yp
+    secret: spring-init
+    expire: 2592000000
