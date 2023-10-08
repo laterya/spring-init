@@ -3,7 +3,7 @@ package cn.yp.springinit.core;
 import cn.yp.springinit.cache.RedisClient;
 import cn.yp.springinit.common.ResCode;
 import cn.yp.springinit.exception.CustomException;
-import cn.yp.springinit.utils.JsonUtils;
+import cn.yp.springinit.utils.JsonUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -77,7 +77,7 @@ public class JwtHelper {
         try {
             DecodedJWT decodedJWT = verifier.verify(token);
             String payload = new String(Base64Utils.decodeFromString(decodedJWT.getPayload()));
-            String userId = String.valueOf(JsonUtils.toObj(payload, HashMap.class).get("userId"));
+            String userId = String.valueOf(JsonUtil.toObj(payload, HashMap.class).get("userId"));
             String user = RedisClient.getStr(token);
             if (user == null || !Objects.equals(user, userId)) {
                 throw new CustomException(ResCode.JWT_ERROR, "JWT 错误或过期");

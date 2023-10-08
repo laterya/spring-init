@@ -1,6 +1,6 @@
 package cn.yp.springinit.cache;
 
-import cn.yp.springinit.utils.JsonUtils;
+import cn.yp.springinit.utils.JsonUtil;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -50,7 +50,7 @@ public class RedisClient {
         if (val instanceof String) {
             return ((String) val).getBytes(CODE);
         } else {
-            return JsonUtils.toStr(val).getBytes(CODE);
+            return JsonUtil.toStr(val).getBytes(CODE);
         }
     }
 

@@ -31,7 +31,7 @@ public class Knife4jConfiguration {
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(this.apiInfo())
                 //分组名称
-                .groupName("用户服务")
+                .groupName("Spring-init 服务")
                 .select()
                 //这里指定Controller扫描包路径
                 .apis(RequestHandlerSelectors.basePackage("cn.yp.springinit.controller"))
