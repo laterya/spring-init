@@ -1,9 +1,12 @@
 package cn.yp.springinit.cache;
 
 import cn.yp.springinit.utils.JsonUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -12,6 +15,7 @@ import java.nio.charset.StandardCharsets;
  * @author yp
  * @date: 2023/10/4
  */
+@Component
 public class RedisClient {
 
     private static RedisTemplate<String, String> template;
@@ -19,6 +23,11 @@ public class RedisClient {
     private static final String KEY_PRIMARY = "spring_init_";
 
     private static final Charset CODE = StandardCharsets.UTF_8;
+
+    @Autowired
+    public  void register(RedisTemplate<String, String> template) {
+        RedisClient.template = template;
+    }
 
     public static void nullCheck(Object... args) {
         for (Object obj : args) {
@@ -63,8 +72,12 @@ public class RedisClient {
      * @return
      */
     public static Boolean setStrWithExpire(String key, String value, Long expire) {
-        return template.execute((RedisConnection redisConnection) -> {
-            return redisConnection.setEx(keyBytes(key), expire, valBytes(value));
+
+        return template.execute(new RedisCallback<Boolean>() {
+            @Override
+            public Boolean doInRedis(RedisConnection redisConnection) throws DataAccessException {
+                return redisConnection.setEx(keyBytes(key), expire, valBytes(value));
+            }
         });
     }
 

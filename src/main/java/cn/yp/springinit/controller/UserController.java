@@ -1,16 +1,15 @@
 package cn.yp.springinit.controller;
 
+import cn.hutool.core.util.PhoneUtil;
 import cn.yp.springinit.common.BaseRes;
 import cn.yp.springinit.common.ResCode;
 import cn.yp.springinit.model.Vo.UserVo;
 import cn.yp.springinit.model.req.UserLoginPwdRequest;
 import cn.yp.springinit.model.req.UserLoginRequest;
 import cn.yp.springinit.service.UserService;
-import cn.yp.springinit.utils.PhoneUtil;
 import cn.yp.springinit.utils.ResUtil;
 import cn.yp.springinit.utils.ThrowUtil;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,29 +21,27 @@ import javax.servlet.http.HttpServletRequest;
  * @date: 2023/10/8
  */
 @Api("用户模块")
-@RestController
-@RequestMapping("/user")
+@RestController("/user")
 public class UserController {
 
     @Resource
     private UserService userService;
 
-    @ApiOperation("发送验证码")
     @GetMapping("/get/code")
     public BaseRes<Boolean> sendCode(@RequestParam("phone") String phone) {
         ThrowUtil.throwIf(StringUtils.isBlank(phone), ResCode.PARAM_ERROR);
-        ThrowUtil.throwIf(!PhoneUtil.isValidPhoneNumber(phone), ResCode.PARAM_ERROR, "手机号格式错误");
+        ThrowUtil.throwIf(!PhoneUtil.isMobile(phone), ResCode.PARAM_ERROR, "手机号格式错误");
         userService.sendCheckCode(phone);
         return ResUtil.buildSuccessRes(true);
     }
 
     @PostMapping("/login/code")
     public BaseRes<Long> userLogin(@RequestBody UserLoginRequest userLoginRequest) {
-        String userName = userLoginRequest.getUserName();
+        String phone = userLoginRequest.getPhone();
         String checkCode = userLoginRequest.getCheckCode();
+        ThrowUtil.throwIf(StringUtils.isAnyBlank(phone, checkCode), ResCode.PARAM_ERROR);
 
-        ThrowUtil.throwIf(StringUtils.isAnyBlank(userName, checkCode), ResCode.PARAM_ERROR);
-        Long userId = userService.userLogin(userName, checkCode);
+        Long userId = userService.userLogin(phone, checkCode);
         return ResUtil.buildSuccessRes(userId);
     }
 

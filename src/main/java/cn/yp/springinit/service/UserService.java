@@ -11,7 +11,7 @@ public interface UserService extends IService<User> {
 
     void sendCheckCode(String phone);
 
-    Long userLogin(String userName, String checkCode);
+    Long userLogin(String phone, String checkCode);
 
     Long userLoginWithPsw(String userName, String password);
 

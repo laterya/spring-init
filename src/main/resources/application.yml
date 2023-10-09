@@ -3,7 +3,6 @@ springinit:
     issuer: yp
     secret: spring-init
     expire: 2592000000
-
 server:
   port: 8091
   servlet:
