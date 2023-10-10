@@ -14,7 +14,9 @@ public enum ResCode {
     SYSTEM_ERROR(10003, "system error"),
     PARAM_ERROR(10004, "param error"),
     JWT_ERROR(10005, "jwt error"),
-    SEND_CODE_ERROR(10006, "send code error")
+    SEND_CODE_ERROR(10006, "send code error"),
+    LOGIN_EXPIRE(10007, "login had expire"),
+
     ;
 
     private int code;

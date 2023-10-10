@@ -89,4 +89,8 @@ public class JwtHelper {
         }
     }
 
+    public Long getExpireTime() {
+        return jwtProperties.getExpire();
+    }
+
 }

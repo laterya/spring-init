@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public BaseRes<?> runtimeExceptionHandler(RuntimeException e) {
-        log.info("RuntimeException: {}", e.getMessage());
+        log.error("RuntimeException: {}", e.getMessage());
         return ResUtil.buildFailRes(ResCode.SYSTEM_ERROR);
     }
 }
