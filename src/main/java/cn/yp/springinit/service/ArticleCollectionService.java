@@ -15,4 +15,6 @@ public interface ArticleCollectionService extends IService<ArticleCollection> {
     int doArticleCollect(long articleId, User loginUser);
 
     Page<Article> listCollectArticleByPage(Page<Object> objectPage, Wrapper<Article> queryWrapper, Long id);
+
+    int doArticleCollectInner(long userId, long articleId);
 }

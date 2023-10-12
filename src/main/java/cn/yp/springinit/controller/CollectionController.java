@@ -63,7 +63,7 @@ public class CollectionController {
         ThrowUtil.throwIf(size > 20, ResCode.PARAM_ERROR);
         Page<Article> postPage = articleCollectionService.listCollectArticleByPage(new Page<>(current, size),
                 articleService.getQueryWrapper(postQueryRequest), loginUser.getId());
-        return ResUtil.buildSuccessRes(articleService.getArticleVOPage(postPage));
+        return ResUtil.buildSuccessRes(articleService.getArticleVoPage(postPage));
     }
 
     @PostMapping("/list/page")
@@ -78,6 +78,6 @@ public class CollectionController {
         ThrowUtil.throwIf(size > 20 || userId == null, ResCode.PARAM_ERROR);
         Page<Article> postPage = articleCollectionService.listCollectArticleByPage(new Page<>(current, size),
                 articleService.getQueryWrapper(postCollectQueryRequest.getArticleQueryRequest()), userId);
-        return ResUtil.buildSuccessRes(articleService.getArticleVOPage(postPage));
+        return ResUtil.buildSuccessRes(articleService.getArticleVoPage(postPage));
     }
 }

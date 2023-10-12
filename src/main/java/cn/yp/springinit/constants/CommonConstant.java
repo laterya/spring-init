@@ -1,10 +1,10 @@
-package cn.yp.springinit.common;
+package cn.yp.springinit.constants;
 
 /**
  * @author yp
  * @date: 2023/10/12
  */
-public interface Constants {
+public interface CommonConstant {
     /**
      * 升序
      */

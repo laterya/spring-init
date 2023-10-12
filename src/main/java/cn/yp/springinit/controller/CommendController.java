@@ -33,7 +33,6 @@ public class CommendController {
      * 点赞 / 取消点赞
      *
      * @param commendAddRequest
-     * @param request
      * @return resultNum 本次点赞变化数
      */
     @PostMapping("/")

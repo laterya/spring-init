@@ -123,7 +123,7 @@ public class ArticleController {
         ThrowUtil.throwIf(size > 20, ResCode.PARAM_ERROR);
         Page<Article> ArticlePage = articleService.page(new Page<>(current, size),
                 articleService.getQueryWrapper(ArticleQueryRequest));
-        return ResUtil.buildSuccessRes(articleService.getArticleVOPage(ArticlePage));
+        return ResUtil.buildSuccessRes(articleService.getArticleVoPage(ArticlePage));
     }
 
     @PostMapping("/my/list/page/vo")
@@ -139,7 +139,7 @@ public class ArticleController {
         ThrowUtil.throwIf(size > 20, ResCode.PARAM_ERROR);
         Page<Article> ArticlePage = articleService.page(new Page<>(current, size),
                 articleService.getQueryWrapper(ArticleQueryRequest));
-        return ResUtil.buildSuccessRes(articleService.getArticleVOPage(ArticlePage));
+        return ResUtil.buildSuccessRes(articleService.getArticleVoPage(ArticlePage));
     }
 
     // endregion
@@ -150,7 +150,7 @@ public class ArticleController {
 //        // 限制爬虫
 //        ThrowUtil.throwIf(size > 20, ResCode.PARAM_ERROR);
 //        Page<Article> ArticlePage = articleService.searchFromEs(ArticleQueryRequest);
-//        return ResUtil.buildSuccessRes(articleService.getArticleVOPage(ArticlePage));
+//        return ResUtil.buildSuccessRes(articleService.getArticleVoPage(ArticlePage));
 //    }
 
 

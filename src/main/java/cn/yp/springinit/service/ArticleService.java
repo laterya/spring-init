@@ -21,5 +21,5 @@ public interface ArticleService extends IService<Article> {
 
     Wrapper<Article> getQueryWrapper(ArticleQueryRequest articleQueryRequest);
 
-    Page<ArticleVO> getArticleVOPage(Page<Article> articlePage);
+    Page<ArticleVO> getArticleVoPage(Page<Article> articlePage);
 }

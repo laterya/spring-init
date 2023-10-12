@@ -1,6 +1,6 @@
 package cn.yp.springinit.model.req;
 
-import cn.yp.springinit.common.Constants;
+import cn.yp.springinit.constants.CommonConstant;
 import lombok.Data;
 
 /**
@@ -27,5 +27,5 @@ public class PageRequest {
     /**
      * 排序顺序（默认升序）
      */
-    private String sortOrder = Constants.SORT_ORDER_ASC;
+    private String sortOrder = CommonConstant.SORT_ORDER_ASC;
 }

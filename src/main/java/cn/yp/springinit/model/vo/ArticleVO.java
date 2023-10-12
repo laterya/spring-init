@@ -1,8 +1,12 @@
 package cn.yp.springinit.model.vo;
 
+import cn.yp.springinit.model.domain.Article;
+import cn.yp.springinit.utils.JsonUtil;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author yp
@@ -33,7 +37,7 @@ public class ArticleVO {
     /**
      * 标签，可自定义
      */
-    private String tags;
+    private List<String> tags;
 
     /**
      * 点赞数
@@ -64,4 +68,18 @@ public class ArticleVO {
      * 是否收藏
      */
     private Boolean hadCollection;
+
+    public static ArticleVO objToVo(Article article) {
+        if (article == null) {
+            return null;
+        }
+        ArticleVO articleVO = new ArticleVO();
+        BeanUtils.copyProperties(article, articleVO);
+
+        if (article.getTags() != null) {
+            articleVO.setTags(JsonUtil.toObj(article.getTags(), List.class));
+        }
+        return articleVO;
+    }
+
 }

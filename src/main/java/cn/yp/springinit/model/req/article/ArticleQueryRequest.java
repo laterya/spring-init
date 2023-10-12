@@ -27,7 +27,7 @@ public class ArticleQueryRequest extends PageRequest {
     /**
      * 文章内容
      */
-    private String content;
+    private String searchText;
 
     /**
      * 文章分类

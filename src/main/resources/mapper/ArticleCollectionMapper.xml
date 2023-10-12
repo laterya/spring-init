@@ -17,4 +17,10 @@
         id,article_id,user_id,
         create_time,update_time,is_deleted
     </sql>
+    <select id="listCollectArticleByPage" resultType="cn.yp.springinit.model.domain.Article">
+        select a.*
+        from article a
+                 join (select article_id from article_collection where user_id = #{collectionUserId}) pf
+                      on a.id = pf.article_id ${ew.customSqlSegment}
+    </select>
 </mapper>

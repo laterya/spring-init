@@ -4,7 +4,7 @@ package cn.yp.springinit.constants;
  * @author yp
  * @date: 2023/10/12
  */
-public class UserConstant {
+public interface UserConstant {
     /**
      * 默认角色
      */
