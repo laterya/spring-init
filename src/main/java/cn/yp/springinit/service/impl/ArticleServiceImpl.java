@@ -15,13 +15,17 @@ import cn.yp.springinit.model.vo.ArticleVO;
 import cn.yp.springinit.model.vo.UserVo;
 import cn.yp.springinit.service.ArticleService;
 import cn.yp.springinit.service.UserService;
+import cn.yp.springinit.utils.JsonUtil;
 import cn.yp.springinit.utils.ThrowUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -33,8 +37,8 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
-        implements ArticleService {
+@Slf4j
+public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
     @Resource
     private ArticleMapper articleMapper;
@@ -87,6 +91,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
         ArticleCollection articleCollection = articleCollectionMapper.selectOne(articleCollectionLambdaQueryWrapper);
         if (articleCollection != null) {
             articleVO.setHadCollection(true);
+        } else {
+            articleVO.setHadCollection(false);
         }
         LambdaQueryWrapper<ArticleCommend> articleCommendLambdaQueryWrapper = new LambdaQueryWrapper<>();
         articleCommendLambdaQueryWrapper.eq(ArticleCommend::getArticleId, article.getId());
@@ -94,6 +100,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
         ArticleCommend articleCommend = articleCommendMapper.selectOne(articleCommendLambdaQueryWrapper);
         if (articleCommend != null) {
             articleVO.setHadCommend(true);
+        } else {
+            articleVO.setHadCommend(false);
         }
         return articleVO;
     }
@@ -107,39 +115,40 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
     @Override
     public Wrapper<Article> getQueryWrapper(ArticleQueryRequest articleQueryRequest) {
         LambdaQueryWrapper<Article> articleLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        if (articleQueryRequest == null) {
-            return articleLambdaQueryWrapper;
-        } else {
+        if (articleQueryRequest != null) {
+
             Long userId = articleQueryRequest.getUserId();
             String title = articleQueryRequest.getTitle();
             String searchText = articleQueryRequest.getSearchText();
             Integer articleCategory = articleQueryRequest.getArticleCategory();
             List<String> tags = articleQueryRequest.getTags();
-
-            articleLambdaQueryWrapper.eq(userId != null, Article::getUserId, userId);
+            if (StringUtils.isNotBlank(searchText)) {
+                articleLambdaQueryWrapper.like(Article::getTitle, searchText).or().like(Article::getContent, searchText);
+            }
+            articleLambdaQueryWrapper.eq(ObjectUtils.isNotEmpty(userId) && userId > 0, Article::getUserId, userId);
             articleLambdaQueryWrapper.like(StringUtils.isNotBlank(title), Article::getTitle, title);
-            articleLambdaQueryWrapper.like(StringUtils.isNotBlank(searchText), Article::getContent, searchText);
-            articleLambdaQueryWrapper.eq(articleCategory != null, Article::getArticleCategory, articleCategory);
+            articleLambdaQueryWrapper.eq(ObjectUtils.isNotEmpty(articleCategory) && articleCategory > 0, Article::getArticleCategory, articleCategory);
             if (CollectionUtils.isNotEmpty(tags)) {
                 for (String tag : tags) {
-                    articleLambdaQueryWrapper.like(Article::getTags, "\"" + tag + "\"");
+                    articleLambdaQueryWrapper.like(Article::getTags, tag);
                 }
             }
-            return articleLambdaQueryWrapper;
+            articleLambdaQueryWrapper.eq(Article::getIsDeleted, false);
         }
+        return articleLambdaQueryWrapper;
     }
 
     @Override
     public Page<ArticleVO> getArticleVoPage(Page<Article> articlePage) {
         List<Article> records = articlePage.getRecords();
+        log.info("records:{}", records);
         Page<ArticleVO> articleVOPage = new Page<>(articlePage.getCurrent(), articlePage.getSize(), articlePage.getTotal());
         if (CollectionUtils.isEmpty(records)) {
             return articleVOPage;
         }
         // 1. 关联查询用户信息
         Set<Long> userIdSet = records.stream().map(Article::getUserId).collect(Collectors.toSet());
-        Map<Long, List<User>> userIdUserListMap = userService.listByIds(userIdSet).stream()
-                .collect(Collectors.groupingBy(User::getId));
+        Map<Long, List<User>> userIdUserListMap = userService.listByIds(userIdSet).stream().collect(Collectors.groupingBy(User::getId));
         // 2. 获取用户点赞，收藏情况
         Map<Long, Boolean> articleIdHadCollectionMap = new HashMap<>();
         Map<Long, Boolean> articleIdHadCommendMap = new HashMap<>();
@@ -167,11 +176,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
                 user = userIdUserListMap.get(id).get(0);
             }
             articleVO.setUserVo(UserVo.objToVo(user));
-            articleVO.setHadCollection(articleIdHadCollectionMap.get(article.getId()));
-            articleVO.setHadCommend(articleIdHadCommendMap.get(article.getId()));
+            articleVO.setHadCollection(articleIdHadCollectionMap.getOrDefault(article.getId(), false));
+            articleVO.setHadCommend(articleIdHadCommendMap.getOrDefault(article.getId(), false));
+            articleVO.setTags(JsonUtil.toObj(article.getTags(), List.class));
+            BeanUtils.copyProperties(article, articleVO);
             return articleVO;
         }).collect(Collectors.toList());
         articleVOPage.setRecords(articleVOS);
+        log.info("articleVOPage:{}", articleVOPage.getRecords());
         return articleVOPage;
     }
 }

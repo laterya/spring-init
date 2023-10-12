@@ -19,6 +19,7 @@ public enum ResCode {
 
     NOT_FOUND_ERROR(10008, "not found error"),
     NO_AUTH_ERROR(10009, "no auth error"),
+    METHOD_NOT_ALLOWED_ERROR(100010, "method not allowed error"),
     ;
 
     private int code;

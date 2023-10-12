@@ -18,7 +18,7 @@ public @interface AuthCheck {
      *
      * @return 必须具有的角色列表
      */
-    String mustRole() default "";
+    String mustRole() default "admin";
 
 }
 

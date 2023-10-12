@@ -52,6 +52,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         category.setCategoryName(categoryName);
         return categoryMapper.updateById(category);
     }
+
+    @Override
+    public boolean isExist(Integer articleCategoryId) {
+        ThrowUtil.throwIf(articleCategoryId <= 0, ResCode.PARAM_ERROR, "分类id错误");
+        Category category = categoryMapper.selectById(articleCategoryId);
+        return category != null;
+    }
 }
 
 

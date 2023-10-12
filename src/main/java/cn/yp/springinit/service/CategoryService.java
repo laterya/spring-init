@@ -15,4 +15,6 @@ public interface CategoryService extends IService<Category> {
     Integer deleteCategory(Integer categoryId);
 
     Integer updateCategory(Integer categoryId, String categoryName);
+
+    boolean isExist(Integer articleCategoryId);
 }

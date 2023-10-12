@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author yp
  * @date: 2023/10/8
@@ -14,16 +16,21 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
     @ExceptionHandler(CustomException.class)
-    public BaseRes<?> customExceptionHandler(CustomException e) {
-        log.error("CustomException: {}", e.getMessage());
+    public BaseRes<?> customExceptionHandler(HttpServletRequest request, CustomException e) {
+        log.error("CustomException: path: {}, msg: {}", request.getRequestURI(), e.getMessage());
         return ResUtil.buildFailRes(ResCode.SYSTEM_ERROR, e.getMessage());
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public BaseRes<?> runtimeExceptionHandler(RuntimeException e) {
-        log.error("RuntimeException: {}", e.getMessage());
+    public BaseRes<?> runtimeExceptionHandler(HttpServletRequest request, RuntimeException e) {
+        log.error("CustomException: path: {}, msg: {}", request.getRequestURI(), e.getMessage());
+        return ResUtil.buildFailRes(ResCode.SYSTEM_ERROR);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public BaseRes<?> ExceptionHandler(HttpServletRequest request, Exception e) {
+        log.error("CustomException: path: {}, msg: {}", request.getRequestURI(), e.getMessage());
         return ResUtil.buildFailRes(ResCode.SYSTEM_ERROR);
     }
 }

@@ -69,7 +69,9 @@ public class ReqCheckFilter implements Filter {
                 || request.getRequestURI().endsWith("swagger-resources")
                 || request.getRequestURI().endsWith("favicon.ico")
                 || request.getRequestURI().endsWith("/v2/api-docs")
+
                 || request.getRequestURI().equals("/user/api/getCode")
+                || request.getRequestURI().equals("/category/api/get")
                 || request.getRequestURI().contains("login");
 
     }

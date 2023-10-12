@@ -11,6 +11,7 @@ import cn.yp.springinit.model.req.article.ArticleQueryRequest;
 import cn.yp.springinit.model.req.article.ArticleUpdateRequest;
 import cn.yp.springinit.model.vo.ArticleVO;
 import cn.yp.springinit.service.ArticleService;
+import cn.yp.springinit.service.CategoryService;
 import cn.yp.springinit.service.UserService;
 import cn.yp.springinit.utils.JsonUtil;
 import cn.yp.springinit.utils.ResUtil;
@@ -37,6 +38,9 @@ public class ArticleController {
     @Resource
     private UserService userService;
 
+    @Resource
+    private CategoryService categoryService;
+
 
     // region 增删改查
 
@@ -52,6 +56,7 @@ public class ArticleController {
             article.setTags(JsonUtil.toStr(tags));
         }
         articleService.validArticle(article, true);
+        ThrowUtil.throwIf(!categoryService.isExist(ArticleAddRequest.getArticleCategory()), ResCode.PARAM_ERROR, "分类不存在");
         Long userId = ReqInfoContext.getReqInfo().getUserId();
         article.setUserId(userId);
 
@@ -104,8 +109,8 @@ public class ArticleController {
     }
 
     @GetMapping("/get/vo")
-    public BaseRes<ArticleVO> getArticleVOById(long id) {
-        if (id <= 0) {
+    public BaseRes<ArticleVO> getArticleVOById(@RequestParam Long id) {
+        if (id == null || id <= 0) {
             throw new CustomException(ResCode.PARAM_ERROR);
         }
         Article article = articleService.getById(id);
@@ -121,8 +126,7 @@ public class ArticleController {
         long size = ArticleQueryRequest.getPageSize();
         // 限制爬虫
         ThrowUtil.throwIf(size > 20, ResCode.PARAM_ERROR);
-        Page<Article> ArticlePage = articleService.page(new Page<>(current, size),
-                articleService.getQueryWrapper(ArticleQueryRequest));
+        Page<Article> ArticlePage = articleService.page(new Page<>(current, size), articleService.getQueryWrapper(ArticleQueryRequest));
         return ResUtil.buildSuccessRes(articleService.getArticleVoPage(ArticlePage));
     }
 
@@ -137,8 +141,7 @@ public class ArticleController {
         long size = ArticleQueryRequest.getPageSize();
         // 限制爬虫
         ThrowUtil.throwIf(size > 20, ResCode.PARAM_ERROR);
-        Page<Article> ArticlePage = articleService.page(new Page<>(current, size),
-                articleService.getQueryWrapper(ArticleQueryRequest));
+        Page<Article> ArticlePage = articleService.page(new Page<>(current, size), articleService.getQueryWrapper(ArticleQueryRequest));
         return ResUtil.buildSuccessRes(articleService.getArticleVoPage(ArticlePage));
     }
 

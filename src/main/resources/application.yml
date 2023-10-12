@@ -16,3 +16,6 @@ spring:
 logging:
   file:
     name: 'myapp.log'
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

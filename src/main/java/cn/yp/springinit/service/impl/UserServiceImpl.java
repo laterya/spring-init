@@ -80,6 +80,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         String encryptPassword = SecureUtil.md5("yp" + password);
         lqw.eq(User::getPhone, phone).eq(User::getPassword, encryptPassword);
         User user = userMapper.selectOne(lqw);
+        ThrowUtil.throwIf(user == null, ResCode.PARAM_ERROR, "手机号或密码错误");
         String token = jwtHelper.genToken(user.getId());
         return new UserLoginDto(user.getId(), token);
     }
