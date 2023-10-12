@@ -5,17 +5,17 @@
 <mapper namespace="cn.yp.springinit.mapper.ArticleMapper">
 
     <resultMap id="BaseResultMap" type="cn.yp.springinit.model.domain.Article">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="userId" column="user_id" jdbcType="BIGINT"/>
-            <result property="title" column="title" jdbcType="VARCHAR"/>
-            <result property="content" column="content" jdbcType="VARCHAR"/>
-            <result property="articleCategory" column="article_category" jdbcType="TINYINT"/>
-            <result property="tags" column="tags" jdbcType="VARCHAR"/>
-            <result property="commendNums" column="commend_nums" jdbcType="INTEGER"/>
-            <result property="collectionNums" column="collection_nums" jdbcType="INTEGER"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="articleCategory" column="article_category" jdbcType="TINYINT"/>
+        <result property="tags" column="tags" jdbcType="VARCHAR"/>
+        <result property="commendNums" column="commend_nums" jdbcType="INTEGER"/>
+        <result property="collectionNums" column="collection_nums" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">

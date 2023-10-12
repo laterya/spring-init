@@ -5,8 +5,8 @@ import cn.yp.springinit.common.BaseRes;
 import cn.yp.springinit.common.ResCode;
 import cn.yp.springinit.model.dto.UserLoginDto;
 import cn.yp.springinit.model.vo.UserVo;
-import cn.yp.springinit.model.req.UserLoginPwdRequest;
-import cn.yp.springinit.model.req.UserLoginRequest;
+import cn.yp.springinit.model.req.user.UserLoginPwdRequest;
+import cn.yp.springinit.model.req.user.UserLoginRequest;
 import cn.yp.springinit.service.UserService;
 import cn.yp.springinit.utils.ResUtil;
 import cn.yp.springinit.utils.ThrowUtil;
@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Api("用户模块")
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user/api")
 public class UserController {
 
     @Resource
@@ -66,6 +66,6 @@ public class UserController {
 
     @GetMapping("/getMsg")
     public BaseRes<UserVo> getLoginUser() {
-        return ResUtil.buildSuccessRes(userService.getLoginUser());
+        return ResUtil.buildSuccessRes(userService.getLoginUserVo());
     }
 }

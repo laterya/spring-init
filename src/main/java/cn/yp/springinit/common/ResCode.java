@@ -17,6 +17,8 @@ public enum ResCode {
     SEND_CODE_ERROR(10006, "send code error"),
     LOGIN_EXPIRE(10007, "login had expire"),
 
+    NOT_FOUND_ERROR(10008, "not found error"),
+    NO_AUTH_ERROR(10009, "no auth error"),
     ;
 
     private int code;

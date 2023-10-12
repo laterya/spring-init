@@ -5,13 +5,14 @@ USE spring_init;
 -- 用户表
 create table if not exists spring_init.`user`
 (
-    `id`          bigint                             not null auto_increment comment '主键' primary key,
-    `user_name`   varchar(32)                        null comment '用户名',
-    `password`    varchar(256)                       null comment '密码',
-    `phone`       varchar(32)                        not null comment '手机号',
-    `create_time` datetime default CURRENT_TIMESTAMP not null comment '创建时间',
-    `update_time` datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
-    `is_deleted`  tinyint  default 0                 not null comment '是否删除(0-未删, 1-已删)',
+    `id`          bigint                                not null auto_increment comment '主键' primary key,
+    `user_name`   varchar(32)                           null comment '用户名',
+    `password`    varchar(256)                          null comment '密码',
+    `phone`       varchar(32)                           not null comment '手机号',
+    `user_role`   varchar(16) default 'user'            not null comment '用户角色',
+    `create_time` datetime    default CURRENT_TIMESTAMP not null comment '创建时间',
+    `update_time` datetime    default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    `is_deleted`  tinyint     default 0                 not null comment '是否删除(0-未删, 1-已删)',
     UNIQUE KEY `idx_phone` (`phone`)
 ) comment '用户表';
 

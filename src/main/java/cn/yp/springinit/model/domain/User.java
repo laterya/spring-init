@@ -35,6 +35,11 @@ public class User implements Serializable {
     private String phone;
 
     /**
+     * 用户角色
+     */
+    private String userRole;
+
+    /**
      * 创建时间
      */
     private Date createTime;

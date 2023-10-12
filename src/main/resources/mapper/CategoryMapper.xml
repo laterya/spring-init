@@ -5,11 +5,11 @@
 <mapper namespace="cn.yp.springinit.mapper.CategoryMapper">
 
     <resultMap id="BaseResultMap" type="cn.yp.springinit.model.domain.Category">
-            <id property="id" column="id" jdbcType="TINYINT"/>
-            <result property="categoryName" column="category_name" jdbcType="VARCHAR"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+        <id property="id" column="id" jdbcType="TINYINT"/>
+        <result property="categoryName" column="category_name" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">

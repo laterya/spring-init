@@ -16,5 +16,9 @@ public interface UserService extends IService<User> {
 
     void setPassword(String password, String checkPassword);
 
-    UserVo getLoginUser();
+    User getLoginUser();
+
+    boolean isAdmin();
+
+    UserVo getLoginUserVo();
 }

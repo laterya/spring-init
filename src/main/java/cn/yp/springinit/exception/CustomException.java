@@ -7,19 +7,24 @@ import cn.yp.springinit.common.ResCode;
  * @date: 2023/10/8
  */
 public class CustomException extends RuntimeException {
-    private final ResCode resCode;
+    private final int resCode;
+
+    public CustomException(int code, String msg) {
+        super(msg);
+        this.resCode = code;
+    }
 
     public CustomException(ResCode resCode) {
         super(resCode.getMsg());
-        this.resCode = resCode;
+        this.resCode = resCode.getCode();
     }
 
     public CustomException(ResCode resCode, String msg) {
         super(msg);
-        this.resCode = resCode;
+        this.resCode = resCode.getCode();
     }
 
-    public ResCode getResCode() {
+    public int getResCode() {
         return resCode;
     }
 }

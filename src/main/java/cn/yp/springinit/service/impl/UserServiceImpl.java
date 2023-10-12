@@ -96,7 +96,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-    public UserVo getLoginUser() {
+    public User getLoginUser() {
+        Long userId = ReqInfoContext.getReqInfo().getUserId();
+        User user = userMapper.selectById(userId);
+        return user;
+    }
+
+    @Override
+    public boolean isAdmin() {
+        Long userId = ReqInfoContext.getReqInfo().getUserId();
+        User user = userMapper.selectById(userId);
+        return user.getUserRole().equals("admin");
+    }
+
+    @Override
+    public UserVo getLoginUserVo() {
         Long userId = ReqInfoContext.getReqInfo().getUserId();
         User user = userMapper.selectById(userId);
         return UserVo.objToVo(user);

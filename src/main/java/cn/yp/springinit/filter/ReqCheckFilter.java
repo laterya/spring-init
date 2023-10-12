@@ -64,12 +64,12 @@ public class ReqCheckFilter implements Filter {
 
     // todo 优化路径过滤规则
     private boolean isAccess(HttpServletRequest request) {
-        return request.getRequestURI().startsWith("/api/doc.html")
+        return request.getRequestURI().startsWith("/doc.html")
                 || request.getRequestURI().contains("webjars")
                 || request.getRequestURI().endsWith("swagger-resources")
                 || request.getRequestURI().endsWith("favicon.ico")
-                || request.getRequestURI().endsWith("/api/v2/api-docs")
-                || request.getRequestURI().equals("/api/user/getCode")
+                || request.getRequestURI().endsWith("/v2/api-docs")
+                || request.getRequestURI().equals("/user/api/getCode")
                 || request.getRequestURI().contains("login");
 
     }

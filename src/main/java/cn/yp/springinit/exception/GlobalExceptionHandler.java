@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CustomException.class)
     public BaseRes<?> customExceptionHandler(CustomException e) {
         log.error("CustomException: {}", e.getMessage());
-        return ResUtil.buildFailRes(e.getResCode(), e.getMessage());
+        return ResUtil.buildFailRes(ResCode.SYSTEM_ERROR, e.getMessage());
     }
 
     @ExceptionHandler(RuntimeException.class)

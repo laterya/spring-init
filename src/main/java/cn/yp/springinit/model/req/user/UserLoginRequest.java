@@ -1,4 +1,4 @@
-package cn.yp.springinit.model.req;
+package cn.yp.springinit.model.req.user;
 
 import lombok.Data;
 
