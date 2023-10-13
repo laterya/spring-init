@@ -26,6 +26,9 @@ public class ArticleCollectionServiceImpl extends ServiceImpl<ArticleCollectionM
     @Resource
     private ArticleService articleService;
 
+    @Resource
+    private ArticleCollectionMapper articleCollectionMapper;
+
     @Override
     public int doArticleCollect(long articleId, User loginUser) {
         // 判断实体是否存在，根据类别获取实体
@@ -74,8 +77,8 @@ public class ArticleCollectionServiceImpl extends ServiceImpl<ArticleCollectionM
                 // 帖子收藏数 - 1
                 result = articleService.update()
                         .eq("id", articleId)
-                        .gt("favourNum", 0)
-                        .setSql("favourNum = favourNum - 1")
+                        .gt("collection_nums", 0)
+                        .setSql("collection_nums = collection_nums - 1")
                         .update();
                 return result ? -1 : 0;
             } else {
@@ -88,7 +91,7 @@ public class ArticleCollectionServiceImpl extends ServiceImpl<ArticleCollectionM
                 // 帖子收藏数 + 1
                 result = articleService.update()
                         .eq("id", articleId)
-                        .setSql("favourNum = favourNum + 1")
+                        .setSql("collection_nums = collection_nums + 1")
                         .update();
                 return result ? 1 : 0;
             } else {

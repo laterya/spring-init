@@ -134,6 +134,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 }
             }
             articleLambdaQueryWrapper.eq(Article::getIsDeleted, false);
+            articleLambdaQueryWrapper.eq(Article::getIsDeleted, 0);
         }
         return articleLambdaQueryWrapper;
     }

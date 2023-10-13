@@ -40,7 +40,6 @@ public class CommendController {
         if (commendAddRequest == null || commendAddRequest.getArticleId() <= 0) {
             throw new CustomException(ResCode.PARAM_ERROR);
         }
-        // 登录才能点赞
         final User loginUser = userService.getLoginUser();
         long articleId = commendAddRequest.getArticleId();
         int result = articleCommendService.doArticleCommend(articleId, loginUser);

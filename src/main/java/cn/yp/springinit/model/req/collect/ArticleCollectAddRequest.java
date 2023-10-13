@@ -13,9 +13,4 @@ public class ArticleCollectAddRequest {
      * 文章id
      */
     private Long articleId;
-
-    /**
-     * 用户id
-     */
-    private Long userId;
 }

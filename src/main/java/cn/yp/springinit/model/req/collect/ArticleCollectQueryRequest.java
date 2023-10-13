@@ -15,8 +15,6 @@ public class ArticleCollectQueryRequest extends PageRequest {
      */
     private Long userId;
 
+    private ArticleQueryRequest articleQueryRequest;
 
-    public ArticleQueryRequest getArticleQueryRequest() {
-        return null;
-    }
 }

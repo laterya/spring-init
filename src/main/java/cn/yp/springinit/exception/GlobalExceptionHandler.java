@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    // todo 处理500/404等异常
     @ExceptionHandler(CustomException.class)
     public BaseRes<?> customExceptionHandler(HttpServletRequest request, CustomException e) {
         log.error("CustomException: path: {}, msg: {}", request.getRequestURI(), e.getMessage());

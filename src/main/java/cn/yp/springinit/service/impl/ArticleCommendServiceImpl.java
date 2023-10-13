@@ -30,10 +30,7 @@ public class ArticleCommendServiceImpl extends ServiceImpl<ArticleCommendMapper,
         if (article == null) {
             throw new CustomException(ResCode.NOT_FOUND_ERROR);
         }
-        // 是否已点赞
         long userId = loginUser.getId();
-        // 每个用户串行点赞
-        // 锁必须要包裹住事务方法
         ArticleCommendService articleCommendService = (ArticleCommendService) AopContext.currentProxy();
         synchronized (String.valueOf(userId).intern()) {
             return articleCommendService.doArticleThumbInner(userId, articleId);
@@ -63,8 +60,8 @@ public class ArticleCommendServiceImpl extends ServiceImpl<ArticleCommendMapper,
                 // 点赞数 - 1
                 result = articleService.update()
                         .eq("id", articleId)
-                        .gt("thumbNum", 0)
-                        .setSql("thumbNum = thumbNum - 1")
+                        .gt("commend_nums", 0)
+                        .setSql("commend_nums = commend_nums - 1")
                         .update();
                 return result ? -1 : 0;
             } else {
@@ -77,7 +74,7 @@ public class ArticleCommendServiceImpl extends ServiceImpl<ArticleCommendMapper,
                 // 点赞数 + 1
                 result = articleService.update()
                         .eq("id", articleId)
-                        .setSql("thumbNum = thumbNum + 1")
+                        .setSql("commend_nums = commend_nums + 1")
                         .update();
                 return result ? 1 : 0;
             } else {

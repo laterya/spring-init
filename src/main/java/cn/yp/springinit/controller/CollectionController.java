@@ -52,32 +52,30 @@ public class CollectionController {
     }
 
     @PostMapping("/my/list/page")
-    public BaseRes<Page<ArticleVO>> listMyCollectArticleByPage(@RequestBody ArticleQueryRequest postQueryRequest) {
-        if (postQueryRequest == null) {
+    public BaseRes<Page<ArticleVO>> listMyCollectArticleByPage(@RequestBody ArticleQueryRequest articleQueryRequest) {
+        if (articleQueryRequest == null) {
             throw new CustomException(ResCode.PARAM_ERROR);
         }
         User loginUser = userService.getLoginUser();
-        long current = postQueryRequest.getCurrent();
-        long size = postQueryRequest.getPageSize();
-        // 限制爬虫
+        long current = articleQueryRequest.getCurrent();
+        long size = articleQueryRequest.getPageSize();
         ThrowUtil.throwIf(size > 20, ResCode.PARAM_ERROR);
         Page<Article> postPage = articleCollectionService.listCollectArticleByPage(new Page<>(current, size),
-                articleService.getQueryWrapper(postQueryRequest), loginUser.getId());
+                articleService.getQueryWrapper(articleQueryRequest), loginUser.getId());
         return ResUtil.buildSuccessRes(articleService.getArticleVoPage(postPage));
     }
 
     @PostMapping("/list/page")
-    public BaseRes<Page<ArticleVO>> listCollectArticleByPage(@RequestBody ArticleCollectQueryRequest postCollectQueryRequest) {
-        if (postCollectQueryRequest == null) {
+    public BaseRes<Page<ArticleVO>> listCollectArticleByPage(@RequestBody ArticleCollectQueryRequest articleCollectQueryRequest) {
+        if (articleCollectQueryRequest == null) {
             throw new CustomException(ResCode.PARAM_ERROR);
         }
-        long current = postCollectQueryRequest.getCurrent();
-        long size = postCollectQueryRequest.getPageSize();
-        Long userId = postCollectQueryRequest.getUserId();
-        // 限制爬虫
+        long current = articleCollectQueryRequest.getCurrent();
+        long size = articleCollectQueryRequest.getPageSize();
+        Long userId = articleCollectQueryRequest.getUserId();
         ThrowUtil.throwIf(size > 20 || userId == null, ResCode.PARAM_ERROR);
         Page<Article> postPage = articleCollectionService.listCollectArticleByPage(new Page<>(current, size),
-                articleService.getQueryWrapper(postCollectQueryRequest.getArticleQueryRequest()), userId);
+                articleService.getQueryWrapper(articleCollectQueryRequest.getArticleQueryRequest()), userId);
         return ResUtil.buildSuccessRes(articleService.getArticleVoPage(postPage));
     }
 }
